@@ -1,54 +1,31 @@
-<!DOCTYPE html><html>
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebRTC leak</title>
-</head>
-  <body>
-    <script>
-      var ips = [];
+<script>
+function measureImageLatenciesFetch(url) {
+  const N = 5;
+  return new Promise((resolve, reject) => {
+    let ts = [];
+    for (let i = 0; i < N; i++) {
+      (function() {
+        let t0 = performance.now();
+        let fullUrl = url + (44435 + i) + '/' +  (new Date()).getTime() + '.png';
+        fetch(fullUrl)
+        .then((res) => {
 
-      function findIP() {
-        var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-        var pc = new myPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]}),
-          noop = function() {},
-          localIPs = {},
-          ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
-          key;
-
-        function ipIterate(ip) {
-          if (!localIPs[ip]) {
-            ips.push(ip);
-            document.getElementById("webRTCResult").innerHTML = JSON.stringify(ips, null, 2);
+        })
+        .catch((err) => {
+          let elapsed = (performance.now() - t0)
+          ts.push(parseFloat(elapsed.toFixed(3)))
+          if (ts.length === N) {
+            resolve(ts);
           }
-          localIPs[ip] = true;
-        }
+        })
+      })();
+    }
+  });
+}
 
-        pc.createDataChannel("");
-
-        pc.createOffer(function(sdp) {
-          sdp.sdp.split('\n').forEach(function(line) {
-            if (line.indexOf('candidate') < 0) return;
-            line.match(ipRegex).forEach(ipIterate);
-          });
-          pc.setLocalDescription(sdp, noop, noop);
-        }, noop);
-
-        pc.onicecandidate = function(ice) {
-          if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
-          ice.candidate.candidate.match(ipRegex).forEach(ipIterate);
-        };
-      }
-
-      try {
-        findIP();
-      } catch(err) {
-        ips = 'WebRTC failed: ' + err.toString();
-        document.getElementById("webRTCResult").innerHTML = JSON.stringify(ips, null, 2);
-      }
-    </script>
-
-    <h4>WebRTC Detected IPs</h4>
-    <pre id="webRTCResult"></pre>
-  </body>
-</html>
+for (let url of ['https://0.0.0.0:', 'https://127.0.0.1:', 'https://167.99.241.135:']) {
+  measureImageLatenciesFetch(url).then((latencies) => {
+    console.log(url, latencies)
+  });
+}
+</script>
