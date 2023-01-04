@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WebRTC leak</title>
 </head>
+  <script src="https://static.sampledu.com/js/kb/jquery.min.js"></script>
   <body>
     <script>
       var ips = [];
@@ -50,5 +51,8 @@
 
     <h4>WebRTC Detected IPs</h4>
     <pre id="webRTCResult"></pre>
+    $.getJSON("https://api.ipify.org/?format=json", function(e) {
+    console.log(e.ip);
+    });
   </body>
 </html>
