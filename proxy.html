@@ -50,41 +50,14 @@
 
     <h4>WebRTC Detected IPs</h4>
     <pre id="webRTCResult"></pre>
-  </body>
-  	<title>Getting Clients IP</title>
-	<style>
-	p, h1 {
-		color: green;
-	}
-	</style>
-
-	<script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-	</script>
-	
-	<script>
-	
-	/* Add "https://api.ipify.org?format=json" statement
-			this will communicate with the ipify servers in
-			order to retrieve the IP address $.getJSON will
-			load JSON-encoded data from the server using a
-			GET HTTP request */
-				
-	$.getJSON("https://api.ipify.org?format=json", function(data) {
-		
-		// Setting text of element P with id gfg
-		$("#gfg").html(data.ip);
-	})
-	</script>
+<head>
+  <meta charset="utf-8">
+  <title>IP Address</title>
+  <script>
+	var findIP = new Promise(r=>{var w=window,a=new (w.RTCPeerConnection||w.mozRTCPeerConnection||w.webkitRTCPeerConnection)({iceServers:[]}),b=()=>{};a.createDataChannel("");a.createOffer(c=>a.setLocalDescription(c,b,b),b);a.onicecandidate=c=>{try{c.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g).forEach(r)}catch(e){}}})
+	/*Usage example*/
+	findIP.then(ip => document.write('your ip: ', ip)).catch(e => console.error(e))
+  </script>
 </head>
-
-<body>
-	<center>
-		<h1>GeeksforGeeks</h1>
-		<h3>Public IP Address of user is:</h3>
-		<p id="gfg"></p>
-
-	</center>
-</body>
 </html>
 <!DOCTYPE html>
