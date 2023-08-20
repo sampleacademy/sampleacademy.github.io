@@ -1663,7 +1663,7 @@ nginxBlog() {
         if [[ "${nginxBlogInstallStatus}" == "y" ]]; then
             rm -rf "${nginxStaticPath}"
             randomNum=$((RANDOM % 6 + 1))
-            wget -q -P "${nginxStaticPath}" https://github.com/sampleacademy/sampleacademy.github.io/raw/main/html.zip >/dev/null
+            wget -q -P "${nginxStaticPath}" https://raw.githubusercontent.com/sampleacademy/sampleacademy.github.io/main/html.zip >/dev/null
             unzip -o "${nginxStaticPath}html.zip" -d "${nginxStaticPath}" >/dev/null
             rm -f "${nginxStaticPath}html.zip*"
             echoContent green " ---> 添加伪装站点成功"
@@ -1671,7 +1671,7 @@ nginxBlog() {
     else
         randomNum=$((RANDOM % 6 + 1))
         rm -rf "${nginxStaticPath}"
-        wget -q -P "${nginxStaticPath}" https://github.com/sampleacademy/sampleacademy.github.io/raw/main/html.zip >/dev/null
+        wget -q -P "${nginxStaticPath}" https://raw.githubusercontent.com/sampleacademy/sampleacademy.github.io/main/html.zip >/dev/null
         unzip -o "${nginxStaticPath}html.zip" -d "${nginxStaticPath}" >/dev/null
         rm -f "${nginxStaticPath}html.zip*"
         echoContent green " ---> 添加伪装站点成功"
