@@ -64,7 +64,12 @@
         ipToCheckPromise.then((ipToCheck) => {
             const result = isIPInBlocks(ipToCheck, ipBlocks);
             const resultElement = document.getElementById("ipResult");
-            resultElement.textContent = result ? "<p>You are in University of Michigan's network.</p>" : "<p>You are NOT in University of Michigan's network.</p>";
+            //resultElement.textContent = result ? "<p>You are in University of Michigan's network.</p>" : "<p>You are NOT in University of Michigan's network.</p>";
+            if (result) {
+                resultElement.innerHTML = "<p>You are in University of Michigan's network.&nbsp;<img src='https://1000logos.net/wp-content/uploads/2018/08/University-of-Michigan-Logo.png' width='50px' /></p>";
+            } else {
+                resultElement.textContent = "<p>You are NOT in University of Michigan's network.</p>";
+            }
             
         });
     </script>
