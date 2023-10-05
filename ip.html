@@ -28,8 +28,29 @@
             return false;
         }
 
+        function fetchDataFromCloudflare(key, defaultValue, processFn) {
+            return fetch('https://1.1.1.1/cdn-cgi/trace')
+                .then(function (response) {
+                    return response.text().then(function (data) {
+                        var arr = data.trim().split('\n').map(function (e) {
+                            return e.split('=');
+                        });
+                        var jsonData = Object.fromEntries(arr);
+                        return processFn(jsonData[key] || defaultValue);
+                    });
+                });
+        }
+
+        function processIPAddress(cfIP) {
+            var outputElement = document.getElementById("ipaddress");
+            outputElement.textContent = cfIP;
+        }
+
+        const ipToCheck = fetchDataFromCloudflare('ip', 'Not available', processIPAddress).catch(function (error) {
+            console.error("Error fetching IP address:", error);
+        });
+
         // Example usage
-        const ipToCheck = '192.168.1.42';
         const result = isIPInBlocks(ipToCheck, ipBlocks);
 
         if (result) {
