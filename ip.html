@@ -8,24 +8,27 @@
 </head>
 <body>
     <script>
-        const ipBlockUrl = 'https://umich.sampleacademy.org/ipBlock.txt';
-
-        let ipBlocks = [];
-        
-        fetch(ipBlockUrl)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`Failed to fetch IP blocks: ${response.statusText}`);
-            }
-            return response.text();
-          })
-          .then((text) => {
-            ipBlocks = text.split(',\n').map((block) => block.trim());
-            console.log(ipBlocks); // Now you have the IP blocks in the ipBlocks variable
-          })
-          .catch((error) => {
-            console.error(`Error: ${error.message}`);
-          });
+        const ipBlocks = [
+            '141.211.0.0/16',
+            '141.212.0.0/16',
+            '141.213.0.0/16',
+            '141.214.0.0/16',
+            '192.12.80.0/24',
+            '192.231.253.0/24',
+            '192.41.232.0/23',
+            '198.108.8.0/21',
+            '207.75.144.0/20',
+            '35.0.0.0/16',
+            '35.1.0.0/16',
+            '35.2.0.0/16',
+            '35.3.0.0/16',
+            '35.4.0.0/16',
+            '35.5.0.0/16',
+            '35.6.0.0/16',
+            '35.7.0.0/18',
+            '35.7.128.0/18',
+            '67.194.0.0/16',
+        ];
 
         // Function to check if an IP is in the list of blocks
         function isIPInBlocks(ipToCheck, ipBlocks) {
