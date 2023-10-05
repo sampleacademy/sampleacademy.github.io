@@ -64,13 +64,15 @@
 
         ipToCheckPromise.then((ipToCheck) => {
             const result = isIPInBlocks(ipToCheck, ipBlocks);
-            console.log(result);
-            if (result) {
-                console.log(`${ipToCheck} is your ip. You are in University of Michigan's network.`);
-            } else {
-                console.log(`${ipToCheck} is your ip. You are not in University of Michigan's network.`);
-            }
+            const resultElement = document.getElementById("ipResult");
+            resultElement.textContent = result ? "You are in University of Michigan's network." : "You are not in University of Michigan's network.";
+            //if (result) {
+            //    console.log(`${ipToCheck} is your ip. You are in University of Michigan's network.`);
+            //} else {
+            //   console.log(`${ipToCheck} is your ip. You are not in University of Michigan's network.`);
+            //}
         });
     </script>
+    <div id="ipResult"></div>
 </body>
 </html>
