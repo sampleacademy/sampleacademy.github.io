@@ -41,23 +41,20 @@
                 });
         }
 
-        function processIPAddress(cfIP) {
-            var outputElement = document.getElementById("ipaddress");
-            outputElement.textContent = cfIP;
-        }
-
-        const ipToCheck = fetchDataFromCloudflare('ip', 'Not available', processIPAddress).catch(function (error) {
+        const ipToCheckPromise = fetchDataFromCloudflare('ip', 'Not available', (cfIP) => cfIP).catch(function (error) {
             console.error("Error fetching IP address:", error);
+            return 'Error';
         });
 
-        // Example usage
-        const result = isIPInBlocks(ipToCheck, ipBlocks);
+        ipToCheckPromise.then((ipToCheck) => {
+            const result = isIPInBlocks(ipToCheck, ipBlocks);
 
-        if (result) {
-            console.log(`${ipToCheck} is in one of the IP blocks.`);
-        } else {
-            console.log(`${ipToCheck} is not in any of the IP blocks.`);
-        }
+            if (result) {
+                console.log(`${ipToCheck} is in one of the IP blocks.`);
+            } else {
+                console.log(`${ipToCheck} is not in any of the IP blocks.`);
+            }
+        });
     </script>
 </body>
 </html>
