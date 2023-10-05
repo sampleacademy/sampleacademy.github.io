@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Address Checker</title>
+    <script src="https://cdn.jsdelivr.net/npm/ip-cidr@3.1.0/dist/ip-cidr.min.js"></script>
+</head>
+<body>
+    <script>
+        // Define a list of IP address blocks in CIDR notation
+        const ipBlocks = [
+            '192.168.1.0/24',
+            '10.0.0.0/16',
+            '172.16.0.0/12',
+        ];
+
+        // Function to check if an IP is in the list of blocks
+        function isIPInBlocks(ipToCheck, ipBlocks) {
+            const ip = new ip4.IPv4CIDR(ipToCheck);
+
+            for (const block of ipBlocks) {
+                const cidr = new ip4.IPv4CIDR(block);
+                if (ip.isWithin(cidr)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Example usage
+        const ipToCheck = '192.168.1.42';
+        const result = isIPInBlocks(ipToCheck, ipBlocks);
+
+        if (result) {
+            console.log(`${ipToCheck} is in one of the IP blocks.`);
+        } else {
+            console.log(`${ipToCheck} is not in any of the IP blocks.`);
+        }
+    </script>
+</body>
+</html>
