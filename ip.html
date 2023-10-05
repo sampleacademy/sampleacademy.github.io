@@ -17,15 +17,14 @@
 
         // Function to check if an IP is in the list of blocks
         function isIPInBlocks(ipToCheck, ipBlocks) {
-            const ip = new ip4.IPv4CIDR(ipToCheck);
-
             for (const block of ipBlocks) {
-                const cidr = new ip4.IPv4CIDR(block);
-                if (ip.isWithin(cidr)) {
-                    return true;
+                if (IPCIDR.isValidCIDR(block)) {
+                    const cidr = new IPCIDR(block);
+                    if (cidr.contains(ipToCheck)) {
+                        return true;
+                    }
                 }
             }
-
             return false;
         }
 
